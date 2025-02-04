@@ -32,4 +32,4 @@ sphinx:
 #   - epub
 
 conda: 
-  environment: docs/source/combinator_dev.yml
+  environment: docs/source/combinator_dev_env.yml
