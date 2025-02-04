@@ -432,7 +432,6 @@ dependencies:
       - soupsieve==2.6
       - spatial-image==1.1.0
       - spatialdata==0.2.2
-      - stagate==1.0.1
       - sympy==1.13.0
       - tenacity==9.0.0
       - tensorboard==2.17.1
