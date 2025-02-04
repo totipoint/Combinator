@@ -367,7 +367,6 @@ dependencies:
       - multiscale-spatial-image==1.0.1
       - namex==0.0.8
       - numba==0.58.1
-      - numpy==1.24.1
       - numpy-groupies==0.11.2
       - numpy-indexed==0.3.7
       - numpyro==0.15.1
@@ -392,7 +391,6 @@ dependencies:
       - orbax-checkpoint==0.5.21
       - paginate==0.5.7
       - pairing-functions==0.2.1
-      - pandas==1.5.1
       - param==2.1.1
       - pathspec==0.12.1
       - phenograph==1.5.7
