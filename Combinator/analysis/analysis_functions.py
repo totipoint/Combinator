@@ -41,8 +41,7 @@ def simulate_trajectory(adata: AnnData,cluster_column: str, combinator_column_na
 
     
     
-    """ 
-    Simulate trajectories along a 100 point differentiation path. 
+    """Simulate trajectories along a 100 point differentiation path. 
 
 
     :param adata: standard scanpy compatible AnnData object that contains all single cell information after Combinator.run has be called on it
@@ -66,8 +65,7 @@ def simulate_trajectory(adata: AnnData,cluster_column: str, combinator_column_na
 def combine_tajectories(adata: AnnData,scores: list, combined_trajectory_name: str) -> AnnData:
     #documentation
 
-    """
-    Given a list of previously calculated Combinator scores, users can use this function to align them and combine them for aid in downstream applications.
+    """Given a list of previously calculated Combinator scores, users can use this function to align them and combine them for aid in downstream applications.
 
     :param adata: standard scanpy compatible AnnData object that contains all single cell information after Combinator.run has be called on it
     :param scores: a standard python list of the names of the Combinator score columns that are stored in adata.obs that you wish to align and combine
@@ -83,8 +81,7 @@ def combine_tajectories(adata: AnnData,scores: list, combined_trajectory_name: s
 def monte_carlo_pvalue(adata: AnnData,cluster_column: str, combinator_column_name: str, combinator_signature: str, project_dir: str, mc_mode: str,analysis_dir: str,mc_permutations: int = 50, cpu_num: int = 5, essential_mode: bool = False, x_percent: float = 0.2, ):
     #documentation
 
-    """
-    Run permutation analysis for specified Combinator columns to calculate p-values for each cell's pseudotime ranking using the Monte Carlo method.
+    """Run permutation analysis for specified Combinator columns to calculate p-values for each cell's pseudotime ranking using the Monte Carlo method.
 
     :param adata: standard scanpy compatible AnnData object that contains all single cell information after combinator.run has be called on it
     :param combinator_column_name: is the column name within the adata.obs that the contain the scores calculated in a previous run of Combinator; can be the filtered or unfiltered scores

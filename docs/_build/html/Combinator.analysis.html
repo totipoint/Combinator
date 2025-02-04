@@ -1,0 +1,188 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Combinator.analysis package &mdash; Combinator 0.5.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=1dd76d02"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Combinator.core package" href="Combinator.core.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Combinator
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Combinator.core.html">Combinator.core package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Combinator.analysis package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Combinator.analysis.analysis_functions">Combinator.analysis.analysis_functions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Combinator.analysis.analysis_functions.combine_tajectories"><code class="docutils literal notranslate"><span class="pre">combine_tajectories()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Combinator.analysis.analysis_functions.monte_carlo_pvalue"><code class="docutils literal notranslate"><span class="pre">monte_carlo_pvalue()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Combinator.analysis.analysis_functions.simulate_trajectory"><code class="docutils literal notranslate"><span class="pre">simulate_trajectory()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Combinator.analysis">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Combinator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Combinator.analysis package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Combinator.analysis.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="combinator-analysis-package">
+<h1>Combinator.analysis package<a class="headerlink" href="#combinator-analysis-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-Combinator.analysis.analysis_functions">
+<span id="combinator-analysis-analysis-functions-module"></span><h2>Combinator.analysis.analysis_functions module<a class="headerlink" href="#module-Combinator.analysis.analysis_functions" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="Combinator.analysis.analysis_functions.combine_tajectories">
+<span class="sig-prename descclassname"><span class="pre">Combinator.analysis.analysis_functions.</span></span><span class="sig-name descname"><span class="pre">combine_tajectories</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AnnData</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scores</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">combined_trajectory_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">AnnData</span></span></span><a class="reference internal" href="_modules/Combinator/analysis/analysis_functions.html#combine_tajectories"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Combinator.analysis.analysis_functions.combine_tajectories" title="Link to this definition"></a></dt>
+<dd><p>Given a list of previously calculated Combinator scores, users can use this function to align them and combine them for aid in downstream applications.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>adata</strong> – standard scanpy compatible AnnData object that contains all single cell information after Combinator.run has be called on it</p></li>
+<li><p><strong>scores</strong> – a standard python list of the names of the Combinator score columns that are stored in adata.obs that you wish to align and combine</p></li>
+<li><p><strong>combined_trajectory_name</strong> – the column name within the adata.obs that will store the combined trajectory scores</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>AnnData</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Combinator.analysis.analysis_functions.monte_carlo_pvalue">
+<span class="sig-prename descclassname"><span class="pre">Combinator.analysis.analysis_functions.</span></span><span class="sig-name descname"><span class="pre">monte_carlo_pvalue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AnnData</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">combinator_column_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">combinator_signature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mc_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analysis_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mc_permutations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cpu_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">essential_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_percent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Combinator/analysis/analysis_functions.html#monte_carlo_pvalue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Combinator.analysis.analysis_functions.monte_carlo_pvalue" title="Link to this definition"></a></dt>
+<dd><p>Run permutation analysis for specified Combinator columns to calculate p-values for each cell’s pseudotime ranking using the Monte Carlo method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>adata</strong> – standard scanpy compatible AnnData object that contains all single cell information after combinator.run has be called on it</p></li>
+<li><p><strong>combinator_column_name</strong> – is the column name within the adata.obs that the contain the scores calculated in a previous run of Combinator; can be the filtered or unfiltered scores</p></li>
+<li><p><strong>project_dir</strong> – string indicating full path to directory where the user’s project files are. The monte carlo method works by creating temporary file stores for each different permutation that then get removed as results are collected so as to avoid out of memory errors</p></li>
+<li><p><strong>mc_mode</strong> – string indicating which flavor of the algorithm to apply the monte carlo method on. Available choices are:
+‘mat_wise’: the full dataset is shuffled such that each cell for gene has a random value from the original dataset
+‘gene_sample’: for each of the signature genes under study, a normal distribution is calculated and positive values are randomly sampled for each cell for that signature. Combinator is then run on each version of the dataset for the specified number of permutations</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Combinator.analysis.analysis_functions.simulate_trajectory">
+<span class="sig-prename descclassname"><span class="pre">Combinator.analysis.analysis_functions.</span></span><span class="sig-name descname"><span class="pre">simulate_trajectory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AnnData</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">combinator_column_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_cutoff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smooth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cells</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">LinearSegmentedColormap</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'magma'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Combinator/analysis/analysis_functions.html#simulate_trajectory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Combinator.analysis.analysis_functions.simulate_trajectory" title="Link to this definition"></a></dt>
+<dd><p>Simulate trajectories along a 100 point differentiation path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>adata</strong> – standard scanpy compatible AnnData object that contains all single cell information after Combinator.run has be called on it</p></li>
+<li><p><strong>cluster_column</strong> – string specifying the column name that contains the cell grouping information that users would like to use to simulate a trajectory through</p></li>
+<li><p><strong>combinator_column_name</strong> – the column name within the adata.obs that the contain the scores calculated in a previous run of Combinator that will be filtered</p></li>
+<li><p><strong>cell_cutoff</strong> – integer specifying the minimum number of cells that each cluster of specified metadata column must have with a Combinator score &gt; 0</p></li>
+<li><p><strong>smooth</strong> – float used by csaps when creating spline through each cluster</p></li>
+<li><p><strong>cmap</strong> – matplotlib color palette or custom cmap for visualizing the trajectory on the heatmap</p></li>
+<li><p><strong>kwargs</strong> – additional arguments specific for seaborn and matplotlib</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a seaborn clustermap</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-Combinator.analysis">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-Combinator.analysis" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Combinator.core.html" class="btn btn-neutral float-left" title="Combinator.core package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Shyam J. Patel.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

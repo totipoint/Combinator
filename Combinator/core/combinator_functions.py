@@ -16,8 +16,7 @@ import datetime
 
 def run_combinator(adata: AnnData, combinator_column_name: str, combinator_signature: str, signature: str,project_dir: str, cluster_column: str, exclude_idents: list | None = None, sparse_mode: bool = False, essential_mode: bool = False, temp_dir_keep: bool = False) -> AnnData:
     #documentation
-    """
-    The main function of Combinator. 
+    """The main function of Combinator. 
     This function generates an exhaustive list of combinations from a given list of signature genes and infers a pseudotime ranking per cell that is stored in the input AnnData object.
 
     :param adata: standard scanpy compatible AnnData object that contains all single cell information
@@ -38,8 +37,7 @@ def run_combinator(adata: AnnData, combinator_column_name: str, combinator_signa
 
 def knee_plot(adata, combinator_column_name = None, nonzero = False):
     #documentation
-    """
-    A helper function that rank-orders the Combinator scores from a given column to aid in deciding a background cutoff.
+    """A helper function that rank-orders the Combinator scores from a given column to aid in deciding a background cutoff.
 
     :param adata: standard scanpy compatible AnnData object that contains all single cell information after combinator.run has be called on it
     :param combinator_column_name: the column name within the adata.obs that the contain the scores calculated in a previous run of Combinator that will be filtered
@@ -50,8 +48,7 @@ def knee_plot(adata, combinator_column_name = None, nonzero = False):
     """
 
 def filter_scores(adata, combinator_column_name = None, threshold = None, filtered_combinator_column_name = None):
-    """
-    Once users have decided upon a cutoff for a given set of Combinator scores, they can use this function to filter those scores and store them into the AnnData object.
+    """Once users have decided upon a cutoff for a given set of Combinator scores, they can use this function to filter those scores and store them into the AnnData object.
 
 
     :param adata: standard scanpy compatible AnnData object that contains all single cell information after combinator.run has be called on it

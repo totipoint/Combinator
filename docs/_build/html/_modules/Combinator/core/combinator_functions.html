@@ -1,0 +1,172 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Combinator.core.combinator_functions &mdash; Combinator 0.5.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=1dd76d02"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Combinator
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../Combinator.core.html">Combinator.core package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Combinator.analysis.html">Combinator.analysis package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Combinator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">Combinator.core.combinator_functions</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Combinator.core.combinator_functions</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">scanpy</span> <span class="k">as</span> <span class="nn">sc</span>
+<span class="kn">from</span> <span class="nn">anndata</span> <span class="kn">import</span> <span class="n">AnnData</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">rankdata</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MinMaxScaler</span>
+<span class="kn">from</span> <span class="nn">kneed</span> <span class="kn">import</span> <span class="n">KneeLocator</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">dask.array</span> <span class="k">as</span> <span class="nn">da</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+<div class="viewcode-block" id="run_combinator">
+<a class="viewcode-back" href="../../../Combinator.core.html#Combinator.core.combinator_functions.run_combinator">[docs]</a>
+<span class="k">def</span> <span class="nf">run_combinator</span><span class="p">(</span><span class="n">adata</span><span class="p">:</span> <span class="n">AnnData</span><span class="p">,</span> <span class="n">combinator_column_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">combinator_signature</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">signature</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span><span class="n">project_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cluster_column</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">exclude_idents</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">sparse_mode</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">essential_mode</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">temp_dir_keep</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AnnData</span><span class="p">:</span>
+    <span class="c1">#documentation</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The main function of Combinator. </span>
+<span class="sd">    This function generates an exhaustive list of combinations from a given list of signature genes and infers a pseudotime ranking per cell that is stored in the input AnnData object.</span>
+
+<span class="sd">    :param adata: standard scanpy compatible AnnData object that contains all single cell information</span>
+<span class="sd">    :param combinator_column_name: the column name within the adata.obs will be where Combinator will store its calculated scores</span>
+<span class="sd">    :param combinator_signature: is the name of the adata.uns key where the signature will be stored</span>
+<span class="sd">    :param signature: a list of lists that are separated into modules for a cell type signature</span>
+<span class="sd">    :param project_dir: the directory where the temporary files are created during processing; we don’t specify a default and recommend that users choose a directory on a hard-drive with sufficient space</span>
+<span class="sd">    :param essential_mode: Boolean to decide if Combinator should be run with certain genes included in every combination of modules</span>
+<span class="sd">    :param temp_dir_keep: Boolean to decide if temporary directory of processing intermediates is kept or not; by default, set to False meaning processing interemdiates will be erased on completion of script</span>
+
+<span class="sd">    :return: AnnData</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+    
+    
+<span class="c1">#combinator components</span>
+
+<div class="viewcode-block" id="knee_plot">
+<a class="viewcode-back" href="../../../Combinator.core.html#Combinator.core.combinator_functions.knee_plot">[docs]</a>
+<span class="k">def</span> <span class="nf">knee_plot</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">combinator_column_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">nonzero</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="c1">#documentation</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A helper function that rank-orders the Combinator scores from a given column to aid in deciding a background cutoff.</span>
+
+<span class="sd">    :param adata: standard scanpy compatible AnnData object that contains all single cell information after combinator.run has be called on it</span>
+<span class="sd">    :param combinator_column_name: the column name within the adata.obs that the contain the scores calculated in a previous run of Combinator that will be filtered</span>
+<span class="sd">    :param nonzero: Boolean to decide whether knee_plot will be constructed on all Combinator score values (default) or just the nonzero values. sometimes, it can be helpful to just look at the nonzero values if there are many cells that are tied for zero to aid in visually identifying the knee </span>
+
+<span class="sd">    :return: a seaborn scatterplot  </span>
+
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="filter_scores">
+<a class="viewcode-back" href="../../../Combinator.core.html#Combinator.core.combinator_functions.filter_scores">[docs]</a>
+<span class="k">def</span> <span class="nf">filter_scores</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">combinator_column_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">filtered_combinator_column_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Once users have decided upon a cutoff for a given set of Combinator scores, they can use this function to filter those scores and store them into the AnnData object.</span>
+
+
+<span class="sd">    :param adata: standard scanpy compatible AnnData object that contains all single cell information after combinator.run has be called on it</span>
+<span class="sd">    :param combinator_column_name: the column name within the adata.obs that the contain the scores calculated in a previous run of Combinator that will be filtered</span>
+<span class="sd">    :param threshold: float indicating the threshold at which Combinator scores in the specified column will be set to zero of they are below it</span>
+<span class="sd">    :param filtered_combinator_column_name: name of the new Combinator column name that will contain the filtered scores. We recommend keeping the unfiltered original output of Combinator in case users would like to recalculate thresholds</span>
+<span class="sd">    :return: AnnData </span>
+
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+    
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Shyam J. Patel.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

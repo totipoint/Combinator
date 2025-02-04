@@ -1,0 +1,210 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Combinator.analysis.analysis_functions &mdash; Combinator 0.5.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=1dd76d02"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Combinator
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../Combinator.core.html">Combinator.core package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Combinator.analysis.html">Combinator.analysis package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Combinator</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">Combinator.analysis.analysis_functions</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Combinator.analysis.analysis_functions</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KernelDensity</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span><span class="p">;</span> <span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">color_codes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">matplotlib.colors</span> <span class="k">as</span> <span class="nn">clr</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">splrep</span><span class="p">,</span> <span class="n">BSpline</span><span class="p">,</span> <span class="n">InterpolatedUnivariateSpline</span>
+<span class="kn">import</span> <span class="nn">scanpy</span> <span class="k">as</span> <span class="nn">sc</span>
+<span class="kn">from</span> <span class="nn">anndata</span> <span class="kn">import</span> <span class="n">AnnData</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">h5py</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">rankdata</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="c1">#import concurrent.futures</span>
+<span class="kn">import</span> <span class="nn">numpy_indexed</span> <span class="k">as</span> <span class="nn">npi</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MinMaxScaler</span>
+<span class="kn">from</span> <span class="nn">kneed</span> <span class="kn">import</span> <span class="n">KneeLocator</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">dask.array</span> <span class="k">as</span> <span class="nn">da</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="c1">#from mpi4py import MPI</span>
+
+<span class="c1">#import subprocess</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="kn">import</span> <span class="nn">csaps</span>
+<span class="c1">#kwargs tip from here</span>
+<span class="c1">#https://stackoverflow.com/questions/1496346/passing-a-list-of-kwargs</span>
+<div class="viewcode-block" id="simulate_trajectory">
+<a class="viewcode-back" href="../../../Combinator.analysis.html#Combinator.analysis.analysis_functions.simulate_trajectory">[docs]</a>
+<span class="k">def</span> <span class="nf">simulate_trajectory</span><span class="p">(</span><span class="n">adata</span><span class="p">:</span> <span class="n">AnnData</span><span class="p">,</span><span class="n">cluster_column</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">combinator_column_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span><span class="n">cell_cutoff</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">smooth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span> <span class="n">cells</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">cmap</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">clr</span><span class="o">.</span><span class="n">LinearSegmentedColormap</span> <span class="o">=</span> <span class="s1">&#39;magma&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    
+    <span class="c1">#documentation</span>
+
+<span class="w">    </span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simulate trajectories along a 100 point differentiation path. </span>
+
+
+<span class="sd">    :param adata: standard scanpy compatible AnnData object that contains all single cell information after Combinator.run has be called on it</span>
+<span class="sd">    :param cluster_column: string specifying the column name that contains the cell grouping information that users would like to use to simulate a trajectory through</span>
+<span class="sd">    :param combinator_column_name: the column name within the adata.obs that the contain the scores calculated in a previous run of Combinator that will be filtered</span>
+<span class="sd">    :param cell_cutoff: integer specifying the minimum number of cells that each cluster of specified metadata column must have with a Combinator score &gt; 0</span>
+<span class="sd">    :param smooth: float used by csaps when creating spline through each cluster </span>
+<span class="sd">    :param cmap: matplotlib color palette or custom cmap for visualizing the trajectory on the heatmap</span>
+<span class="sd">    :param kwargs: additional arguments specific for seaborn and matplotlib</span>
+<span class="sd">    :return: a seaborn clustermap</span>
+
+
+
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+    
+    
+    
+    
+
+
+<div class="viewcode-block" id="combine_tajectories">
+<a class="viewcode-back" href="../../../Combinator.analysis.html#Combinator.analysis.analysis_functions.combine_tajectories">[docs]</a>
+<span class="k">def</span> <span class="nf">combine_tajectories</span><span class="p">(</span><span class="n">adata</span><span class="p">:</span> <span class="n">AnnData</span><span class="p">,</span><span class="n">scores</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">combined_trajectory_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AnnData</span><span class="p">:</span>
+    <span class="c1">#documentation</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Given a list of previously calculated Combinator scores, users can use this function to align them and combine them for aid in downstream applications.</span>
+
+<span class="sd">    :param adata: standard scanpy compatible AnnData object that contains all single cell information after Combinator.run has be called on it</span>
+<span class="sd">    :param scores: a standard python list of the names of the Combinator score columns that are stored in adata.obs that you wish to align and combine</span>
+<span class="sd">    :param combined_trajectory_name: the column name within the adata.obs that will store the combined trajectory scores</span>
+<span class="sd">    :return: AnnData</span>
+
+
+
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+
+
+<div class="viewcode-block" id="monte_carlo_pvalue">
+<a class="viewcode-back" href="../../../Combinator.analysis.html#Combinator.analysis.analysis_functions.monte_carlo_pvalue">[docs]</a>
+<span class="k">def</span> <span class="nf">monte_carlo_pvalue</span><span class="p">(</span><span class="n">adata</span><span class="p">:</span> <span class="n">AnnData</span><span class="p">,</span><span class="n">cluster_column</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">combinator_column_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">combinator_signature</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">project_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mc_mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span><span class="n">analysis_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span><span class="n">mc_permutations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">cpu_num</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">essential_mode</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">x_percent</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="p">):</span>
+    <span class="c1">#documentation</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run permutation analysis for specified Combinator columns to calculate p-values for each cell&#39;s pseudotime ranking using the Monte Carlo method.</span>
+
+<span class="sd">    :param adata: standard scanpy compatible AnnData object that contains all single cell information after combinator.run has be called on it</span>
+<span class="sd">    :param combinator_column_name: is the column name within the adata.obs that the contain the scores calculated in a previous run of Combinator; can be the filtered or unfiltered scores</span>
+<span class="sd">    :param project_dir: string indicating full path to directory where the user’s project files are. The monte carlo method works by creating temporary file stores for each different permutation that then get removed as results are collected so as to avoid out of memory errors</span>
+<span class="sd">    :param mc_mode: string indicating which flavor of the algorithm to apply the monte carlo method on. Available choices are:</span>
+<span class="sd">        ‘mat_wise’: the full dataset is shuffled such that each cell for gene has a random value from the original dataset</span>
+<span class="sd">        ‘gene_sample’: for each of the signature genes under study, a normal distribution is calculated and positive values are randomly sampled for each cell for that signature. Combinator is then run on each version of the dataset for the specified number of permutations</span>
+<span class="sd">    :return: numpy array</span>
+<span class="sd">    </span>
+
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+    
+
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Shyam J. Patel.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
