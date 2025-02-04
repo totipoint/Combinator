@@ -311,7 +311,6 @@ dependencies:
       - clustree==0.2.1
       - colorcet==3.1.0
       - combat==0.3.3
-      - combinator==0.1.0
       - contextlib2==21.6.0
       - csaps==1.2.0
       - dask==2024.8.2
