@@ -6,12 +6,10 @@ version: 2
 
 # Set the OS, Python version and other tools you might need
 build:
-  os: ubuntu-20.04
+  os: ubuntu-20.04.6
   tools:
     python: "3.11"
-    install:
-      - method: pip
-        path: .
+    
     # You can also specify other tool versions:
     # nodejs: "20"
     # rust: "1.70"
