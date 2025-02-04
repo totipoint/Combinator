@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel", "torch"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Combinator"
+version = "0.5.0"
+authors = [
+  { name="Shyam", email="sj.patel@mail.utoronto.ca" },
+]
+description = 'Semi-Supervised Trajectory Analysis for scRNAseq'
+readme = "README.md"
+requires-python = ">=3.11"
+
+[tool.setuptools]
+packages = ["Combinator"]
